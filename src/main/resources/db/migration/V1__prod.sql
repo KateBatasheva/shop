@@ -1,9 +1,8 @@
 CREATE TABLE products (id bigserial primary key, title varchar(255), price int);
-insert into products (title, price) values
+INSERT INTO products (title, price) values
 ('Apple', 80),
 ('Pear', 70),
-('Peach', 90);
-('Watermelon', 30),
+('Peach', 90),
 ('Orange', 70),
 ('Grapfruit', 190),
 ('Pomegranate', 280),
@@ -19,4 +18,5 @@ insert into products (title, price) values
 ('Apricot', 50),
 ('Grapes', 70),
 ('Kiwi', 100),
-('Pineapple', 130);
+('Pineapple', 130),
+('Watermelon', 30);
