@@ -1,11 +1,14 @@
 package ru.geekbrains.spring.shop.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import ru.geekbrains.spring.shop.model.Product;
+import ru.geekbrains.spring.shop.services.DirectionSorting;
 import ru.geekbrains.spring.shop.services.ProductService;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -16,8 +19,11 @@ public class ShopController {
     private ProductService productService;
 
     @GetMapping
-    public List<Product> getAll() {
-        return productService.getAll();
+    public List<Product> getAll(@RequestParam (defaultValue = "0") Integer page,
+                                @RequestParam (defaultValue = "5") Integer size,
+                                @RequestParam (required = false) String direction,
+                                @RequestParam (defaultValue = "price") String sort) {
+        return productService.getAll(page,size,direction,sort);
     }
 
     @GetMapping ("/sort")
