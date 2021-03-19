@@ -1,12 +1,12 @@
 package ru.geekbrains.spring.shop.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import ru.geekbrains.spring.shop.model.Product;
+import ru.geekbrains.spring.shop.model.entities.Product;
 
-import javax.persistence.NamedNativeQuery;
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 @Repository
@@ -18,4 +18,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findProductByPriceGreaterThanEqual (Integer price);
     List<Product> findByTitleLike (String title);
 
+//    Page<Product> findAll(Pageable pageable, Sort sort);
+//    Page<Product> findAll(Pageable pageable, Sort sort);
 }
