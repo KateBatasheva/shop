@@ -1,14 +1,9 @@
-package ru.geekbrains.spring.shop.model;
+package ru.geekbrains.spring.shop.model.entities;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "products")
@@ -25,4 +20,8 @@ public class Product {
 
     @Column(name = "price")
     private Integer price;
+
+    @ManyToOne
+    @JoinColumn (name = "category_id")
+    private Category category;
 }
