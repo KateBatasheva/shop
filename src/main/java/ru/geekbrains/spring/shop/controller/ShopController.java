@@ -3,8 +3,11 @@ package ru.geekbrains.spring.shop.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
+import ru.geekbrains.spring.shop.model.DTOs.CartDTO;
 import ru.geekbrains.spring.shop.model.DTOs.ProductDTO;
+import ru.geekbrains.spring.shop.model.entities.Cart;
 import ru.geekbrains.spring.shop.model.entities.Product;
+import ru.geekbrains.spring.shop.services.CartService;
 import ru.geekbrains.spring.shop.services.ProductService;
 
 import java.util.List;
@@ -16,6 +19,9 @@ public class ShopController {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private CartService cartService;
 
     @GetMapping
     public Page<ProductDTO> getAll(@RequestParam (defaultValue = "0") Integer page,
@@ -85,8 +91,14 @@ public class ShopController {
         return pr;
     }
 
-
-
-
+    @GetMapping ("/cart")
+    public String showCart (){
+        return cartService.showCart();
+    }
+//
+//    @GetMapping ("/cart")
+//    public Page<CartDTO> showCart (@RequestParam CartDTO cartDTO){
+//        return cartService.showCart();
+//    }
 
 }
