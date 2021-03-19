@@ -3,21 +3,24 @@ package ru.geekbrains.spring.shop.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.geekbrains.spring.shop.model.DTOs.ProductDTO;
+import ru.geekbrains.spring.shop.model.entities.Category;
 import ru.geekbrains.spring.shop.model.entities.Product;
+import ru.geekbrains.spring.shop.repository.CategoryRepository;
 import ru.geekbrains.spring.shop.repository.ProductRepository;
 
 import java.util.List;
-import java.util.function.Supplier;
-import java.util.stream.Stream;
+import java.util.Optional;
 
 @Service
 public class ProductService {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
@@ -59,12 +62,22 @@ public class ProductService {
 //        return productRepository.findAll().stream().map(ProductDTO::new).map();
 //    }
 
-    public Product getById(Long id) {
+    public Optional<ProductDTO> getById(Long id) {
+        return productRepository.findById(id).map(ProductDTO::new);
+    }
+
+    public Product getFullProduct (Long id){
         return productRepository.findById(id).get();
     }
 
-    public Product getByName(String title) {
-        return productRepository.findProductById(title);
+    public ProductDTO getByName(String title) {
+        ProductDTO pr = new ProductDTO(productRepository.findProductByTitle(title));
+        return pr;
+    }
+
+
+    public Category findCategoryByName (String name){
+        return categoryRepository.findCategoryByTitle(name);
     }
 
     public Product add(Product product) {

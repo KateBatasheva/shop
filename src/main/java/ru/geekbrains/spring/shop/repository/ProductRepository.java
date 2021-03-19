@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    Product findProductById(String title);
+    Product findProductByTitle(String title);
     List<Product> findProductByPriceBetween (Integer first, Integer second);
     List<Product> findProductByPriceLessThanEqual (Integer price);
     List<Product> findProductByPriceGreaterThanEqual (Integer price);

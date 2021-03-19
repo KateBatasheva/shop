@@ -7,9 +7,8 @@ import ru.geekbrains.spring.shop.model.DTOs.ProductDTO;
 import ru.geekbrains.spring.shop.model.entities.Product;
 import ru.geekbrains.spring.shop.services.ProductService;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/products")
@@ -48,14 +47,14 @@ public class ShopController {
 //    }
 
     @GetMapping("/{id}")
-    public Product getById(@PathVariable Long id) {
-        return productService.getById(id);
+    public ProductDTO getById(@PathVariable Long id) {
+        return productService.getById(id).get();
     }
 
-    @GetMapping("/title")
-    public Product getByName(@RequestParam String title) {
-        return productService.getByName(title);
-    }
+//    @GetMapping("/title")
+//    public Optional<Product> getByName(@RequestParam String title) {
+//        return productService.getByName(title);
+//    }
 
     @PostMapping
         public Product add(@RequestBody Product product) {
@@ -75,6 +74,15 @@ public class ShopController {
     @GetMapping("/product")
     public List<Product> getProductByTitle (@RequestParam String title){
         return productService.getProdusctByTitle(title);
+    }
+
+    @PutMapping("/{id}")
+    public Product put(@RequestBody ProductDTO product){
+        Product pr = productService.getFullProduct(product.getId());
+        pr.setPrice(product.getPrice());
+        pr.setTitle(product.getTitle());
+        pr.setCategory(productService.findCategoryByName(product.getCategory()));
+        return pr;
     }
 
 
