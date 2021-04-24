@@ -1,7 +1,6 @@
 package ru.geekbrains.spring.shop.model.entities;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -9,24 +8,16 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "product_table")
+@Table(name = "role_table")
 @Data
-@NoArgsConstructor
-public class Product {
+public class Role {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+    private Integer id;
 
-    @Column(name = "title")
-    private String title;
-
-    @Column(name = "price")
-    private Integer price;
-
-    @ManyToOne
-    @JoinColumn (name = "category_id")
-    private Category category;
+    @Column (name = "name")
+    private String name;
 
     @CreationTimestamp
     @Column(name = "created_at")

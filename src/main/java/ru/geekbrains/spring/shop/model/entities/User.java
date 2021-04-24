@@ -1,32 +1,36 @@
 package ru.geekbrains.spring.shop.model.entities;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 @Entity
-@Table(name = "product_table")
+@Table(name = "user_table")
 @Data
-@NoArgsConstructor
-public class Product {
+public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+    private Integer id;
 
-    @Column(name = "title")
-    private String title;
+    @Column (name = "username")
+    private String login;
 
-    @Column(name = "price")
-    private Integer price;
+    @Column (name = "password")
+    private String password;
 
-    @ManyToOne
-    @JoinColumn (name = "category_id")
-    private Category category;
+    @Column(name = "email")
+    private String email;
+
+    @ManyToMany
+    @JoinTable(name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Collection<Role> roles;
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -35,4 +39,5 @@ public class Product {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
 }
