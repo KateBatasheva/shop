@@ -59,14 +59,5 @@ public class ProductController {
         return pr;
     }
 
-    @GetMapping("/cart")
-    public CartDTO showCart() {
-        return cartService.showCart();
-    }
-//
-//    @GetMapping ("/cart")
-//    public Page<CartDTO> showCart (@RequestParam CartDTO cartDTO){
-//        return cartService.showCart();
-//    }
 
 }

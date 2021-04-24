@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 import ru.geekbrains.spring.shop.model.entities.User;
 import ru.geekbrains.spring.shop.services.UserService;
 
+import javax.transaction.Transactional;
+
 
 @Component
 public class CustomUserDetailsService implements UserDetailsService {
@@ -15,6 +17,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     private UserService userService;
 
     @Override
+    @Transactional
     public CustomUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userService.findByLogin(username);
         return CustomUserDetails.fromUserEntityToCustomUserDetails(user);

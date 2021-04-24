@@ -28,8 +28,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/register", "/auth").permitAll()
+                .antMatchers("/admin/*").hasRole("ADMIN")
                 .and()
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+//        http
+//                .csrf().disable()
+//                .authorizeRequests()
+//                .antMatchers("/api/v1/*").authenticated()
+//                .antMatchers("/admin").hasRole("ADMIN")
+//                .anyRequest().permitAll()
+//                .and()
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                .and()
+//                .headers().frameOptions().disable();
+//        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean

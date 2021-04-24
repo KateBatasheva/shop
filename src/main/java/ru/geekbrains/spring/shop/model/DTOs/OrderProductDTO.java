@@ -16,6 +16,6 @@ public class OrderProductDTO {
         this.productTitle = order.getProduct().getTitle();
         this.quantity = order.getQuantity();
         this.priceProduct = order.getPrice();
-        this.price = order.getPrice();
+        this.price = order.getTotalPrice();
     }
 }

@@ -2,8 +2,11 @@ package ru.geekbrains.spring.shop.model.entities;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Data
@@ -14,6 +17,10 @@ public class OrderProduct {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
+    @ManyToOne
+    @JoinColumn (name = "order_id")
+    private Order order;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
@@ -27,6 +34,14 @@ public class OrderProduct {
 
     @Column(name = "total_price")
     private int totalPrice;
+
+    @CreationTimestamp
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     public OrderProduct(Product product) {
         this.product = product;

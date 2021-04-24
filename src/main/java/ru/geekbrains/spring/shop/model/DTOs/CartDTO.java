@@ -24,7 +24,10 @@ public class CartDTO {
             this.totalPrice = 0;
         }
         this.products = cart.getProducts().stream().map(OrderProductDTO::new).collect(Collectors.toList());
-        this.totalPrice = cart.getTotalCartPrice();
+//        this.totalPrice = cart.getTotalCartPrice();
+        cart.getProducts().stream().forEach(product -> {
+            this.totalPrice += product.getTotalPrice();
+        });
     }
 
     @Override

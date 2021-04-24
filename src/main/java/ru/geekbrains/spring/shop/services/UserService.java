@@ -10,6 +10,8 @@ import ru.geekbrains.spring.shop.model.entities.User;
 import ru.geekbrains.spring.shop.repository.RoleRepository;
 import ru.geekbrains.spring.shop.repository.UserRepository;
 
+import java.util.Collection;
+
 @Service
 @Log
 public class UserService {
@@ -43,8 +45,10 @@ public class UserService {
     }
 
     public void saveUser(User user) {
+        Collection<Role> roles = null;
         Role role = roleRepository.findByName("ROLE_USER");
-        user.setRole(role);
+        roles.add(role);
+        user.setRoles(roles);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }

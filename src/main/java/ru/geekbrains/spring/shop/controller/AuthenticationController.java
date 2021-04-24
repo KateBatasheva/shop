@@ -9,6 +9,7 @@ import ru.geekbrains.spring.shop.model.DTOs.AuthRequestDto;
 import ru.geekbrains.spring.shop.model.DTOs.AuthResponseDto;
 import ru.geekbrains.spring.shop.model.DTOs.SignUpRequestDto;
 import ru.geekbrains.spring.shop.model.entities.User;
+import ru.geekbrains.spring.shop.security.CustomUserDetails;
 import ru.geekbrains.spring.shop.security.JwtProvider;
 import ru.geekbrains.spring.shop.services.UserService;
 
@@ -33,7 +34,8 @@ public class AuthenticationController {
     @PostMapping("/auth")
     public AuthResponseDto auth(@RequestBody AuthRequestDto request) {
         User user = userService.findByLoginAndPassword(request.getLogin(), request.getPassword());
-        String token = jwtProvider.generateToken(user.getLogin());
+        CustomUserDetails userDetails = CustomUserDetails.fromUserEntityToCustomUserDetails(user);
+        String token = jwtProvider.generateToken(userDetails);
         return new AuthResponseDto(token);
     }
 

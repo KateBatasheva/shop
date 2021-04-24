@@ -32,6 +32,11 @@ public class CartController {
        cartService.addToCart(id);
     }
 
+    @GetMapping("/remove/{id}")
+    public void removeFromCart(@PathVariable Long id) {
+        cartService.removeFromCart(id);
+    }
+
     @GetMapping("/clear")
     public void clearCart() {
        cartService.clear();

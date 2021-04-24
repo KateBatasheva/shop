@@ -1,5 +1,6 @@
 package ru.geekbrains.spring.shop.services;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.geekbrains.spring.shop.model.DTOs.CartDTO;
@@ -8,12 +9,15 @@ import ru.geekbrains.spring.shop.model.entities.OrderProduct;
 //import ru.geekbrains.spring.shop.repository.CartRepository;
 
 @Service
+@RequiredArgsConstructor
 public class CartService {
 
-     private Cart cart = Cart.getCart();
+//     private Cart cart = Cart.getCart();
+    private final Cart cart;
 
      @Autowired
      ProductService productService;
+
 //     private CartRepository cartRepository;
 
 //    public Cart addProduct (Product product){
@@ -41,20 +45,41 @@ public class CartService {
         cart.getProducts().add(product);
     }
 
+    private void removeFromCart (OrderProduct product){
+        cart.getProducts().remove(product);
+    }
+
     public void addToCart (Long id){
         if(cart.getProducts().size() == 0){
             addToCart(new OrderProduct(productService.getByIdProduct(id).get()));
         } else {
         for (OrderProduct p: cart.getProducts()) {
-            if (p.getId().equals(id)) {
+            if (p.getProduct().getId().equals(id)) {
                 p.incrementQuantity();
-                return;
             } else {
                 addToCart(new OrderProduct(productService.getByIdProduct(id).get()));
+                return;
+            }
+            return;
+        }
+        }
+        recalculate();
+    }
+
+    public void removeFromCart (Long id){
+        for (OrderProduct p: cart.getProducts()){
+            if (p.getProduct().getId().equals(id)) {
+                if (p.getQuantity() == 1){
+                    removeFromCart(p);
+                } else {
+                    p.decrementQuantity();
+                }
+                return;
+            } else {
+                throw new RuntimeException("Not found product in the cart");
             }
         }
-            recalculate();
-        }
+        recalculate();
     }
 
     public void clear (){
@@ -65,7 +90,7 @@ public class CartService {
         cart.setTotalCartPrice(0);
         int totalPrice = 0;
         for (OrderProduct o : cart.getProducts()) {
-            totalPrice += o.getPrice();
+            totalPrice += o.getTotalPrice();
         }
         cart.setTotalCartPrice(totalPrice);
     }

@@ -1,57 +1,62 @@
-CREATE TABLE products (id bigserial primary key, category_id int, title varchar(255), price int);
-INSERT INTO products (title, category_id, price) values
-('Apple',1, 80),
-('Pear',1, 70),
-('Peach',1, 90),
-('Orange',1, 70),
-('Grapfruit',1, 190),
-('Pomegranate',1, 280),
-('Cherry',1, 190),
-('Blueberry',1, 320),
-('Raspberry',1, 250),
-('Lemon',1, 90),
-('Lime',1, 120),
-('Mango',1, 110),
-('Pomelo',1, 80),
-('Strawberry',1, 190),
-('Banan',1, 20),
-('Apricot',1, 50),
-('Grapes',1, 70),
-('Kiwi',1, 100),
-('Pineapple',1, 130),
-('Watermelon',1, 30);
+create table categories (
+    id              bigserial primary key,
+    title           varchar(255)
+    );
 
-create table categories (id bigserial primary key, title varchar(255));
-INSERT INTO categories (title) values
-('Fruits');
+create table product_table (
+    id                      bigserial primary key,
+    title                   varchar(255),
+        category_id             int,
+    price                   int,
+    created_at              timestamp default current_timestamp,
+    updated_at              timestamp default current_timestamp,
+    foreign key (category_id) references categories (id)
+
+    );
+create table user_table
+(
+    id                      bigserial primary key,
+    username                varchar(50) not null unique,
+    password                varchar(500) not null,
+    email                   varchar(150) unique,
+    created_at              timestamp default current_timestamp,
+    updated_at              timestamp default current_timestamp
+);
+
+create table order_table (
+    id                      bigserial primary key,
+    owner_id                bigint references user_table (id),
+    price                   int,
+    address                 varchar(255),
+    created_at              timestamp default current_timestamp,
+    updated_at              timestamp default current_timestamp
+);
 
 create table order_items
 (
     id             bigserial primary key,
+    order_id                bigint references order_table (id),
+    product_id              bigint references product_table (id),
     title          varchar(255),
     quantity       int,
     price          int,
-    total_price    int
+    total_price    int,
+        created_at              timestamp default current_timestamp,
+    updated_at              timestamp default current_timestamp
 );
 
 
 create table role_table
 (
     id   serial      not null constraint role_table_pk primary key,
-    name varchar(20) not null
+    name varchar(20) not null,
+    created_at              timestamp default current_timestamp,
+    updated_at              timestamp default current_timestamp
 );
 
-create table user_table
-(
-    id       serial not null constraint user_table_pk primary key,
-    login    varchar(50),
-    password varchar(500),
-    role_id  integer constraint user_table_role_table_id_fk references role_table
+create table users_roles (
+    user_id                 bigint not null references user_table (id),
+    role_id                 bigint not null references role_table (id),
+    primary key (user_id, role_id)
 );
 
-create
-unique index user_table_login_uindex
-    on user_table (login);
-
-insert into role_table(name) values ('ROLE_ADMIN');
-insert into role_table(name) values ('ROLE_USER');

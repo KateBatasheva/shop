@@ -7,6 +7,7 @@ import ru.geekbrains.spring.shop.model.entities.User;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.stream.Collectors;
 
 public class CustomUserDetails implements UserDetails {
 
@@ -18,7 +19,7 @@ public class CustomUserDetails implements UserDetails {
        CustomUserDetails c = new CustomUserDetails();
         c.login = user.getLogin();
         c.password = user.getPassword();
-        c.grantedAuthorities = Collections.singletonList(new SimpleGrantedAuthority(user.getRole().getName()));
+        c.grantedAuthorities = user.getRoles().stream().map(r -> new SimpleGrantedAuthority(r.getName())).collect(Collectors.toList());
         return c;
     }
 
